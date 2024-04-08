@@ -2,6 +2,7 @@ package main
 
 import (
 	"admin-api/common/config"
+	_ "admin-api/docs"
 	"admin-api/pkg/db"
 	"admin-api/pkg/log"
 	"admin-api/pkg/redis"
@@ -13,8 +14,12 @@ import (
 	"time"
 )
 
+// @title 通用后台管理系统
+// @version 1.0
+// @description 后台管理系统API接口文档
+// @securityDefinitions.apikey ApiKeyAuth // @in header
+// @name Authorization
 func main() {
-
 	// 加载日志log
 	log := log.Log()
 	// 设置启动模式
