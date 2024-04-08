@@ -34,3 +34,12 @@ func CaptMake() (id, b64s string) {
 	lid, lb64s, _, _ := captcha.Generate()
 	return lid, lb64s
 }
+
+// 验证captcha是否正确
+func CaptVerify(id string, capt string) bool {
+	if store.Verify(id, capt, false) {
+		return true
+	} else {
+		return false
+	}
+}

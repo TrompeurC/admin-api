@@ -28,7 +28,10 @@ func InitRouter() *gin.Engine {
 // 路由接口
 func register(router *gin.Engine) {
 	// todo 后续接口url
-	router.GET("/api/captcha", controller.Captcha)
+
+	ApiGroup := router.Group("/api")
+	ApiGroup.GET("captcha", controller.Captcha)
+	ApiGroup.POST("login", controller.Login)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

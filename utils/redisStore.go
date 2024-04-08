@@ -10,7 +10,7 @@ import (
 type RedisStore struct {
 }
 
-func (r *RedisStore) Set(id, val string) error {
+func (r RedisStore) Set(id, val string) error {
 	key := constant.LOGIN_CODE + "-" + id
 	err := redis.RedisDB.Set(key, val, 5*time.Minute).Err()
 	if err != nil {
@@ -20,7 +20,7 @@ func (r *RedisStore) Set(id, val string) error {
 	return nil
 }
 
-func (r *RedisStore) Get(id string, clear bool) string {
+func (r RedisStore) Get(id string, clear bool) string {
 	key := constant.LOGIN_CODE + "-" + id
 	result, err := redis.RedisDB.Get(key).Result()
 	if err != nil {
@@ -29,7 +29,7 @@ func (r *RedisStore) Get(id string, clear bool) string {
 	return result
 }
 
-func (r *RedisStore) Verify(id, answer string, clear bool) bool {
+func (r RedisStore) Verify(id, answer string, clear bool) bool {
 	val := (&RedisStore{}).Get(id, clear)
 	return val == answer
 }

@@ -34,7 +34,6 @@ func (t *HTime) Scan(v any) error {
 	value, ok := v.(time.Time)
 	if ok {
 		*t = HTime{Time: value}
-		return nil
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
