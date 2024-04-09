@@ -45,6 +45,15 @@ func register(router *gin.Engine) {
 		router.GET("/api/post/list", controller.GetSysPostList)
 		router.GET("/api/post/vo/list", controller.QuerySysPostVoList)
 	}
+	// 部门
+	{
+		router.POST("/api/dept/add", controller.CreateSysDept)
+		router.GET("/api/dept/vo/list", controller.QuerySysDeptVoList)
+		router.GET("/api/dept/info", controller.GetSysDeptById)
+		router.PUT("/api/dept/update", controller.UpdateSysDept)
+		router.DELETE("/api/dept/delete", controller.DeleteSysDeptById)
+		router.GET("/api/dept/list", controller.GetSysDeptList)
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
