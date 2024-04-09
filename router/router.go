@@ -30,8 +30,21 @@ func register(router *gin.Engine) {
 	// todo 后续接口url
 
 	ApiGroup := router.Group("/api")
-	ApiGroup.GET("captcha", controller.Captcha)
-	ApiGroup.POST("login", controller.Login)
+	{
+		ApiGroup.GET("captcha", controller.Captcha)
+		ApiGroup.POST("login", controller.Login)
+	}
+	//岗位
+	{
+		router.POST("/api/post/add", controller.CreateSysPost)
+		router.GET("/api/post/info", controller.GetSysPostById)
+		router.PUT("/api/post/update", controller.UpdateSysPost)
+		router.DELETE("/api/post/delete", controller.DeleteSysPostById)
+		router.DELETE("/api/post/batch/delete", controller.BatchDeleteSysPost)
+		router.PUT("/api/post/updateStatus", controller.UpdateSysPostStatus)
+		router.GET("/api/post/list", controller.GetSysPostList)
+		router.GET("/api/post/vo/list", controller.QuerySysPostVoList)
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
