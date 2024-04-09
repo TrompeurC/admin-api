@@ -54,6 +54,14 @@ func register(router *gin.Engine) {
 		router.DELETE("/api/dept/delete", controller.DeleteSysDeptById)
 		router.GET("/api/dept/list", controller.GetSysDeptList)
 	}
-
+	// 菜单
+	{
+		router.GET("/api/menu/vo/list", controller.QuerySysMenuVoList)
+		router.POST("/api/menu/add", controller.CreateSysMenu)
+		router.GET("/api/menu/info", controller.GetSysMenu)
+		router.PUT("/api/menu/update", controller.UpdateSysMenu)
+		router.DELETE("/api/menu/delete", controller.DeleteSysRoleMenu)
+		router.GET("/api/menu/list", controller.GetSysMenuList)
+	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
