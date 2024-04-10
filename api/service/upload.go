@@ -3,7 +3,7 @@ package service
 import (
 	"admin-api/common/config"
 	"admin-api/common/result"
-	"admin-api/pkg/upload"
+	"admin-api/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"path"
@@ -34,7 +34,7 @@ func (u UploadServiceImpl) Upload(c *gin.Context) {
 		fmt.Sprintf("%04d", now.Year()),
 		fmt.Sprintf("%02d", now.Month()),
 		fmt.Sprintf("%04d", now.Day()))
-	upload.CreateDir(filePath)
+	utils.CreateDir(filePath)
 	fullPath := filePath + "/" + fileName
 	c.SaveUploadedFile(file, fullPath)
 	result.Success(c, fullPath)

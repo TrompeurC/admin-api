@@ -92,7 +92,13 @@ func register(router *gin.Engine) {
 			controller.UpdatePersonalPassword)
 		jwt.GET("/admin/list", controller.GetSysAdminList)
 	}
-
+	// 日志
+	{
+		jwt.GET("/sysLoginInfo/list", controller.GetSysLoginInfoList)
+		jwt.DELETE("/sysLoginInfo/batch/delete", controller.BatchDeleteSysLoginInfo)
+		jwt.DELETE("/sysLoginInfo/delete", controller.DeleteSysLoginInfoById)
+		jwt.DELETE("/sysLoginInfo/clean", controller.CleanSysLoginInfo)
+	}
 	// 文件上传
 	{
 		jwt.POST("/upload", controller.Upload)
