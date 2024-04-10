@@ -2,25 +2,27 @@ package result
 
 // Codes 定义的状态
 type Codes struct {
-	SUCCESS                                 uint
-	FAILED                                  uint
-	Message                                 map[uint]string
-	NOAUTH                                  uint
-	AUTHFORMATERROR                         uint
-	INVALIDTOKEN                            uint
-	MissingLoginParameter                   uint
-	VerificationCodeHasExpired              uint
-	CAPTCHANOTTRUE                          uint
-	PASSWORDNOTTRUE                         uint
-	STATUSISENABLE                          uint
-	ROLENAMEALREADYEXISTS                   uint
-	MENUISEXIST                             uint
-	DELSYSMENUFAILED                        uint
-	DEPTISEXIST                             uint
-	DEPTISDISTRIBUTE                        uint
-	POSTALREADYEXISTS                       uint
-	MissingNewAdminParameter                uint
-	USERNAMEALREADYEXISTS                   uint
+	SUCCESS                    uint
+	FAILED                     uint
+	Message                    map[uint]string
+	NOAUTH                     uint
+	AUTHFORMATERROR            uint
+	INVALIDTOKEN               uint
+	MissingLoginParameter      uint
+	VerificationCodeHasExpired uint
+	CAPTCHANOTTRUE             uint
+	PASSWORDNOTTRUE            uint
+	STATUSISENABLE             uint
+	ROLENAMEALREADYEXISTS      uint
+	MENUISEXIST                uint
+	DELSYSMENUFAILED           uint
+	DEPTISEXIST                uint
+	DEPTISDISTRIBUTE           uint
+	POSTALREADYEXISTS          uint
+	MissingNewAdminParameter   uint
+	USERNAMEALREADYEXISTS      uint
+
+	FILEUPLOADERROR                         uint
 	MissingModificationOfPersonalParameters uint
 	MissingChangePasswordParameter          uint
 	RESETPASSWORD                           uint
