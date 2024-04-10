@@ -63,5 +63,17 @@ func register(router *gin.Engine) {
 		router.DELETE("/api/menu/delete", controller.DeleteSysRoleMenu)
 		router.GET("/api/menu/list", controller.GetSysMenuList)
 	}
+	// 角色
+	{
+		router.POST("/api/role/add", controller.CreateSysRole)
+		router.PUT("/api/role/info", controller.GetSysRoleById)
+		router.PUT("/api/role/update", controller.UpdateSysRole)
+		router.DELETE("/api/role/delete", controller.DeleteSysRoleById)
+		router.PUT("/api/role/updateStatus", controller.UpdateSysRoleStatus)
+		router.GET("/api/role/list", controller.GetSysRoleList)
+		router.GET("/api/role/vo/list", controller.QuerySysRoleVoList)
+		router.GET("/api/role/vo/idList", controller.QueryRoleMenuIdList)
+		router.PUT("/api/role/assignPermissions", controller.AssignPermissions)
+	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
