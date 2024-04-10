@@ -37,7 +37,7 @@ func register(router *gin.Engine) {
 	}
 
 	// jwt鉴权接口
-	jwt := router.Group("/api", middlewares.AuthMiddleware())
+	jwt := router.Group("/api", middlewares.AuthMiddleware(), middlewares.LogMiddleware())
 	//岗位
 	{
 		jwt.POST("/post/add", controller.CreateSysPost)

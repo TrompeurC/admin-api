@@ -137,33 +137,29 @@ func (SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 		result.Failed(c, result.ApiCode.MissingLoginParameter, result.ApiCode.GetMessage(result.ApiCode.MissingLoginParameter))
 		return
 	}
-	// 验证码是否过期
-	code := utils.RedisStore{}.Get(dto.IdKey, true)
-	if len(code) == 0 {
-		result.Failed(c, result.ApiCode.VerificationCodeHasExpired,
-			result.ApiCode.GetMessage(result.ApiCode.VerificationCodeHasExpired))
-		return
-	}
+	ip := c.ClientIP()
 	// 校验验证码
 	verifyRes := CaptVerify(dto.IdKey, dto.Image)
 	if !verifyRes {
-		result.Failed(c, result.ApiCode.CAPTCHANOTTRUE,
-			result.ApiCode.GetMessage(result.ApiCode.CAPTCHANOTTRUE))
+		dao.CreateSysLoginInfo(dto.Username, ip, utils.GetRealAddressByIP(ip), utils.GetBrowser(c), utils.GetOs(c), "验证码不正确", 2)
+		result.Failed(c, (result.ApiCode.CAPTCHANOTTRUE), result.ApiCode.GetMessage(result.ApiCode.CAPTCHANOTTRUE))
 		return
 	}
-	// 校验 密码
+	// 校验
 	sysAdmin := dao.SysAdminDetail(dto)
 	if sysAdmin.Password != utils.EncryptionMd5(dto.Password) {
-		result.Failed(c, result.ApiCode.PASSWORDNOTTRUE,
-			result.ApiCode.GetMessage(result.ApiCode.PASSWORDNOTTRUE))
+		dao.CreateSysLoginInfo(dto.Username, ip, utils.GetRealAddressByIP(ip), utils.GetBrowser(c), utils.GetOs(c), "密码不正确", 2)
+		result.Failed(c, (result.ApiCode.PASSWORDNOTTRUE), result.ApiCode.GetMessage(result.ApiCode.PASSWORDNOTTRUE))
 		return
 	}
-	var status uint = 2
-	if sysAdmin.Status == status {
-		result.Failed(c, (result.ApiCode.STATUSISENABLE),
-			result.ApiCode.GetMessage(result.ApiCode.STATUSISENABLE))
+	const status int = 2
+	if sysAdmin.Status == uint(status) {
+		dao.CreateSysLoginInfo(dto.Username, ip, utils.GetRealAddressByIP(ip), utils.GetBrowser(c), utils.GetOs(c), "账号已停用", 2)
+		result.Failed(c, (result.ApiCode.STATUSISENABLE), result.ApiCode.GetMessage(result.ApiCode.STATUSISENABLE))
 		return
 	}
+	// 生成token
+	dao.CreateSysLoginInfo(dto.Username, ip, utils.GetRealAddressByIP(ip), utils.GetBrowser(c), utils.GetOs(c), "登录成功", 1)
 	var leftMenuVo []entity.LeftMenuVo
 	leftMenuList := dao.QueryLeftMenuList(sysAdmin.ID)
 	for _, value := range leftMenuList {
