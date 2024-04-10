@@ -164,9 +164,26 @@ func (SysAdminServiceImpl) Login(c *gin.Context, dto entity.LoginDto) {
 			result.ApiCode.GetMessage(result.ApiCode.STATUSISENABLE))
 		return
 	}
+	var leftMenuVo []entity.LeftMenuVo
+	leftMenuList := dao.QueryLeftMenuList(sysAdmin.ID)
+	for _, value := range leftMenuList {
+		menuSvoList := dao.QueryMenuVoList(sysAdmin.ID, value.Id)
+		item := entity.LeftMenuVo{}
+		item.MenuSvoList = menuSvoList
+		item.Id = value.Id
+		item.MenuName = value.MenuName
+		item.Icon = value.Icon
+		item.Url = value.Url
+		leftMenuVo = append(leftMenuVo, item)
+	}
+	permissionList := dao.QueryPermissionList(sysAdmin.ID)
+	var stringList = make([]string, 0)
+	for _, value := range permissionList {
+		stringList = append(stringList, value.Value)
+	}
 	// 生成Token
 	tokenString, _ := jwt.GenerateTokenByAdmin(sysAdmin)
-	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin})
+	result.Success(c, map[string]interface{}{"token": tokenString, "sysAdmin": sysAdmin, "leftMenuList": leftMenuVo, "permissionList": stringList})
 }
 
 var sysAdminService = SysAdminServiceImpl{}
